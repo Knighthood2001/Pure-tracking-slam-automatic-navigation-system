@@ -57,12 +57,6 @@ def generate_launch_description():
         executable='robot_state_publisher',
         arguments=[urdf_model_path]
     )
-    joint_state_publisher_node = Node(
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        name='joint_state_publisher_gui',
-        arguments=[urdf_model_path]
-        )
     fake_basel_cmd4 = Node(
             package='tf2_ros',
             executable='static_transform_publisher',
@@ -85,7 +79,6 @@ def generate_launch_description():
     ld.add_action(start_gazebo_cmd)
     ld.add_action(spawn_entity_cmd)
     ld.add_action(start_robot_state_publisher_cmd)
-    ld.add_action(joint_state_publisher_node)
 
    
     ld.add_action(fake_basel_cmd4)
