@@ -65,7 +65,8 @@ four_wheeled_vehicle/
 ```bash
 ros2 launch gazebo_modele gazebo.launch.py
 ```
-2.启动导航
+
+2. 启动导航
 ```bash
 ros2 launch nav_slam 2dpoints.launch.py
 ```
@@ -78,6 +79,7 @@ ros2 launch four_wheeled_vehicle gazebo_sim.launch.py
 # 方式二：使用vehicle_gazebo_ok.launch.py（原方式）
 ros2 launch four_wheeled_vehicle vehicle_gazebo_ok.launch.py
 ```
+
 2. 启动导航
 ```bash
 ros2 launch nav_slam 2dpoints.launch.py
