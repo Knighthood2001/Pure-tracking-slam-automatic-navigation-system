@@ -1,0 +1,116 @@
+import os
+from launch import LaunchDescription
+from launch.actions import ExecuteProcess, DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
+
+# 用法：
+#   ros2 launch four_wheeled_vehicle vehicle_gazebo_ok.launch.py
+
+def generate_launch_description():
+    declare_use_gui_arg = DeclareLaunchArgument(
+        'use_gui',
+        default_value='false',
+        description='是否显示关节控制GUI（未启用 joint_state_publisher_gui）'
+    )
+    use_gui = LaunchConfiguration('use_gui')
+
+    pkg_path = FindPackageShare('four_wheeled_vehicle').find('four_wheeled_vehicle')
+    model_path = os.path.join(pkg_path, 'models')
+    urdf_path = os.path.join(pkg_path, 'urdf', 'vehicle', 'vehicle.urdf.xacro')
+    world_file = os.path.join(pkg_path, '2d.world')
+    plugin_path = os.path.join(pkg_path, '../..', 'lib', 'four_wheeled_vehicle')
+
+    os.environ['GAZEBO_MODEL_PATH']  = f"{os.environ.get('GAZEBO_MODEL_PATH', '')}:{model_path}"
+    os.environ['GAZEBO_PLUGIN_PATH'] = f"{os.environ.get('GAZEBO_PLUGIN_PATH', '')}:{plugin_path}"
+
+    print("plugin_path:", plugin_path)
+    print("world_file:", world_file)
+    print("model_path:", model_path)
+    print("urdf_path:", urdf_path)
+
+    start_gazebo = ExecuteProcess(
+        cmd=[
+            'gazebo', '--verbose', world_file,
+            '-s', 'libgazebo_ros_init.so',
+            '-s', 'libgazebo_ros_factory.so'
+        ],
+        output='screen'
+    )
+
+    spawn_entity = ExecuteProcess(
+        cmd=[
+            'ros2', 'run', 'gazebo_ros', 'spawn_entity.py',
+            '-entity', 'four_wheeled_car',
+            '-file', urdf_path,
+            '-x', '0.0', '-y', '0.0', '-z', '1.0'
+        ],
+        output='screen'
+    )
+
+
+
+
+
+
+
+
+
+    # 发布TF
+    stf_lidar = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='stf_lidar3d',
+        arguments=['0', '0', '2.25', '0', '0', '0', '0', 'base_link', 'lidar3d_link'],
+        output='screen'
+    )
+    stf_gps = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='stf_gps',
+        arguments=['0', '0', '2.25', '0', '0', '0', '0', 'base_link', 'gps_link'],
+        output='screen'
+    )
+    stf_imu = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='stf_imu',
+        arguments=['0', '0', '2.25', '0', '0', '0', '0', 'base_link', 'imu_link'],
+        output='screen'
+    )
+
+    stf_camera = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='stf_camera',
+        arguments=['0', '0', '2.35', '0', '0', '0', '0', 'base_link', 'camera_link'],
+        output='screen'
+    )
+
+    stf_base = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='odom',
+        arguments=['0', '0', '2', '0', '0', '0', '0', 'odom', 'base_link'],
+        output='screen'
+    )
+
+    odom_map_tf_node = Node(
+        package='four_wheeled_vehicle',
+        executable='odom_mapTF',
+        name='odom_map_tf_node',
+        output='screen'
+)
+
+    return LaunchDescription([
+        declare_use_gui_arg,
+        start_gazebo,
+        spawn_entity,
+        stf_lidar,   
+        stf_gps,
+        stf_imu,
+        stf_camera,
+        stf_base,
+        odom_map_tf_node
+    ])

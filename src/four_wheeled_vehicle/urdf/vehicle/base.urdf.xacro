@@ -1,0 +1,43 @@
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="base_xacro">
+        <link name="base_link">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="2000"/>
+                <inertia ixx="1200" ixy="0" ixz="0" iyy="2500" iyz="0" izz="3000"/>
+            </inertial>
+
+            <collision name="base_link_collision">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="5.24 1.5 0.47"/>
+                </geometry>
+            </collision>
+
+            <visual name="base_link_visual">
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="model://four_wheeled_vehicle/meshes/car.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+        </link>
+
+        <link name="inertial_joint">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </link>
+        <joint name="inertial_joint_fixed" type="fixed">
+            <parent link="base_link"/>
+            <child link="inertial_joint"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </joint>
+
+        <link name="main_mass">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </link>
+        <joint name="main_mass_fixed" type="fixed">
+            <parent link="inertial_joint"/>
+            <child link="main_mass"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+</robot>
