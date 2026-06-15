@@ -149,7 +149,7 @@
   </library_effects>
   <library_images>
     <image id="script_rt_dials_race_001_baseColor_png" name="script_rt_dials_race_001_baseColor_png">
-      <init_from>script_rt_dials_race.001_baseColor.png</init_from>
+      <init_from>script_rt_dials_race_001_baseColor.png</init_from>
     </image>
   </library_images>
   <library_materials>
