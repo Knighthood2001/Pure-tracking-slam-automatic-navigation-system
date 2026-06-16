@@ -21,23 +21,12 @@
                 </geometry>
             </visual>
         </link>
-
-        <link name="inertial_joint">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </link>
-        <joint name="inertial_joint_fixed" type="fixed">
+        
+        <link name="base_footprint"/>
+        <joint name="base_footprint_joint" type="fixed">
             <parent link="base_link"/>
-            <child link="inertial_joint"/>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </joint>
-
-        <link name="main_mass">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </link>
-        <joint name="main_mass_fixed" type="fixed">
-            <parent link="inertial_joint"/>
-            <child link="main_mass"/>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <child link="base_footprint"/>
+            <origin xyz="0 0 -0.325" rpy="0 0 0"/>
         </joint>
     </xacro:macro>
 </robot>

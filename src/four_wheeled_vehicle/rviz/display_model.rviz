@@ -67,6 +67,10 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         base_link:
           Alpha: 1
           Show Axes: false
@@ -104,15 +108,7 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        inertial_joint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         lidar3d_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-        main_mass:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -139,6 +135,8 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
+        base_footprint:
+          Value: true
         base_link:
           Value: true
         camera_link:
@@ -155,11 +153,7 @@ Visualization Manager:
           Value: true
         imu_link:
           Value: true
-        inertial_joint:
-          Value: true
         lidar3d_link:
-          Value: true
-        main_mass:
           Value: true
         rear_left_wheel_link:
           Value: true
@@ -171,34 +165,32 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        base_link:
-          camera_link:
-            {}
-          front_left_steering_link:
-            front_left_wheel_link:
+        base_footprint:
+          base_link:
+            camera_link:
               {}
-          front_right_steering_link:
-            front_right_wheel_link:
+            front_left_steering_link:
+              front_left_wheel_link:
+                {}
+            front_right_steering_link:
+              front_right_wheel_link:
+                {}
+            gps_link:
               {}
-          gps_link:
-            {}
-          imu_link:
-            {}
-          inertial_joint:
-            main_mass:
+            imu_link:
               {}
-          lidar3d_link:
-            {}
-          rear_left_wheel_link:
-            {}
-          rear_right_wheel_link:
-            {}
+            lidar3d_link:
+              {}
+            rear_left_wheel_link:
+              {}
+            rear_right_wheel_link:
+              {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_link
+    Fixed Frame: base_footprint
     Frame Rate: 30
   Name: root
   Tools:
@@ -256,10 +248,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.3853982090950012
+      Pitch: 0.02539825066924095
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.6303957104682922
+      Yaw: 1.3403953313827515
     Saved: ~
 Window Geometry:
   Displays:

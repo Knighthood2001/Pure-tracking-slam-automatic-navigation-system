@@ -40,7 +40,7 @@ def generate_launch_description():
         package='gazebo_ros',
         executable='spawn_entity.py',
         arguments=['-topic', '/robot_description',
-                   '-entity', robot_name_in_model, '-x', '0', '-y', '0', '-z', '0.5'])
+                   '-entity', robot_name_in_model, '-x', '0', '-y', '0', '-z', '0.325'])  # 0.324+0.001，虽然写0.5也是一样的，gazebo初始化的时候，物体会下沉到地面上。
     
     return launch.LaunchDescription([
         action_declare_arg_mode_path,
