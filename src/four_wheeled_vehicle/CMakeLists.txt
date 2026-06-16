@@ -64,4 +64,20 @@ install(DIRECTORY models launch worlds urdf rviz
   DESTINATION share/${PROJECT_NAME}/
 )
 
+# ---- 追加：odom->base_link 变换发布节点 ----
+add_executable(odom_baselinkTF src/odom_baselinkTF.cpp)
+ament_target_dependencies(odom_baselinkTF
+  rclcpp
+  nav_msgs
+  geometry_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
+)
+
+install(TARGETS
+  odom_baselinkTF
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

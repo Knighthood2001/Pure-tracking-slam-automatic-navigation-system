@@ -9,6 +9,7 @@ def generate_launch_description():
     urdf_tutorial_path = get_package_share_directory('four_wheeled_vehicle')
     default_model_path = urdf_tutorial_path + '/urdf/vehicle/vehicle.urdf.xacro'
     default_world_path = urdf_tutorial_path + '/worlds/2d.world'
+    default_rviz_config_path = urdf_tutorial_path + '/rviz/gazebo_sim.rviz'
     model_path = os.path.join(urdf_tutorial_path, 'models')
     plugin_path = os.path.join(urdf_tutorial_path, '../..', 'lib', 'four_wheeled_vehicle')
 
@@ -42,9 +43,24 @@ def generate_launch_description():
         arguments=['-topic', '/robot_description',
                    '-entity', robot_name_in_model, '-x', '0', '-y', '0', '-z', '0.325'])  # 0.324+0.001，虽然写0.5也是一样的，gazebo初始化的时候，物体会下沉到地面上。
     
+    odom_baselink_tf_node = launch_ros.actions.Node(
+        package='four_wheeled_vehicle',
+        executable='odom_baselinkTF',
+        name='odom_baselink_tf',
+        output='screen'
+    )
+
+    # RViz 节点
+    rviz_node = launch_ros.actions.Node(
+        package='rviz2',
+        executable='rviz2',
+        arguments=['-d', default_rviz_config_path]
+    )
     return launch.LaunchDescription([
         action_declare_arg_mode_path,
         robot_state_publisher_node,
+        odom_baselink_tf_node,
         launch_gazebo,
         spawn_entity_node,
+        rviz_node
     ])
