@@ -60,7 +60,7 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(DIRECTORY models launch worlds urdf
+install(DIRECTORY models launch worlds urdf rviz
   DESTINATION share/${PROJECT_NAME}/
 )
 
