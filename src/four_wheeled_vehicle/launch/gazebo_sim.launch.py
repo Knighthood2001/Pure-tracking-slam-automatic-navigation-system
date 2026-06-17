@@ -62,5 +62,5 @@ def generate_launch_description():
         odom_baselink_tf_node,
         launch_gazebo,
         spawn_entity_node,
-        rviz_node
+        # rviz_node
     ])
