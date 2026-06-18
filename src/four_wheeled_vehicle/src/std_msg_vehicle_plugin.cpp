@@ -70,7 +70,7 @@ void StdMsgVehiclePlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
     }
 
   
-    ros_node_ = rclcpp::Node::make_shared("std_msg_vehicle_controller");
+    ros_node_ = rclcpp::Node::make_shared("std_msg_vehicle_controller", rclcpp::NodeOptions().parameter_overrides({{"use_sim_time", true}}));
     RCLCPP_INFO(ros_node_->get_logger(), "标准消息车辆插件加载成功");
 
     fl_steer_joint_ = model_->GetJoint("front_left_steering_joint");

@@ -22,11 +22,11 @@
             </visual>
         </link>
         
-        <link name="base_footprint"/>
+        <!-- <link name="base_footprint"/>
         <joint name="base_footprint_joint" type="fixed">
             <parent link="base_link"/>
             <child link="base_footprint"/>
             <origin xyz="0 0 -0.325" rpy="0 0 0"/>
-        </joint>
+        </joint> -->
     </xacro:macro>
 </robot>

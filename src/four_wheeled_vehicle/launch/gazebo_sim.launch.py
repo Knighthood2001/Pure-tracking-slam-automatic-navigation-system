@@ -28,7 +28,7 @@ def generate_launch_description():
     robot_state_publisher_node = launch_ros.actions.Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        parameters=[{'robot_description': robot_description}]
+        parameters=[{'robot_description': robot_description, 'use_sim_time': True}]
     )
 
     launch_gazebo = launch.actions.IncludeLaunchDescription(
@@ -47,7 +47,8 @@ def generate_launch_description():
         package='four_wheeled_vehicle',
         executable='odom_baselinkTF',
         name='odom_baselink_tf',
-        output='screen'
+        output='screen',
+        parameters=[{"use_sim_time": True}]
     )
 
     # RViz 节点
