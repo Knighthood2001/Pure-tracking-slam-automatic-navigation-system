@@ -45,6 +45,7 @@
                         <namespace>/vehicle</namespace>
                         <remapping>~/out:=/points_raw</remapping>
                     </ros>
+                    <output_type>sensor_msgs/PointCloud2</output_type>
                     <frame_name>lidar3d_link</frame_name>
                 </plugin>
             </sensor>

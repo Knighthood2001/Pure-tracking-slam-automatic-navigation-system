@@ -183,10 +183,10 @@ void StdMsgVehiclePlugin::PublishOdom(const common::Time &sim_time) {
 
     odom_msg.header.stamp = ros_node_->get_clock()->now();
     odom_msg.header.frame_id = "odom";      
-    odom_msg.child_frame_id = "base_link";   
+    odom_msg.child_frame_id = "base_footprint";   
 
 
-    auto base_link = model_->GetLink("base_link");
+    auto base_link = model_->GetLink("base_footprint");
     auto world_pose = base_link->WorldPose();
 
     odom_msg.pose.pose.position.x = world_pose.Pos().X();

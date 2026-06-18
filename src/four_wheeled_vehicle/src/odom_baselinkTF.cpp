@@ -30,7 +30,7 @@ public:
 
     tf_pub_ = std::make_shared<tf2_ros::TransformBroadcaster>(this);
 
-    RCLCPP_INFO(this->get_logger(), "Publishing dynamic TF: odom -> base_link");
+    RCLCPP_INFO(this->get_logger(), "Publishing dynamic TF: odom -> base_footprint");
   }
 
 private:
@@ -40,7 +40,7 @@ private:
 
     tf.header.stamp = msg->header.stamp;
     tf.header.frame_id = "odom";
-    tf.child_frame_id  = "base_link";
+    tf.child_frame_id  = "base_footprint";
 
     tf.transform.translation.x = msg->pose.pose.position.x;
     tf.transform.translation.y = msg->pose.pose.position.y;
