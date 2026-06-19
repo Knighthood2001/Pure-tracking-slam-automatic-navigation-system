@@ -8,7 +8,7 @@ def generate_launch_description():
     robot_name_in_model = "four_wheeled_vehicle"
     urdf_tutorial_path = get_package_share_directory('four_wheeled_vehicle')
     default_model_path = urdf_tutorial_path + '/urdf/vehicle/vehicle.urdf.xacro'
-    default_world_path = urdf_tutorial_path + '/worlds/2d.world'
+    default_world_path = urdf_tutorial_path + '/worlds/3d.world'
     default_rviz_config_path = urdf_tutorial_path + '/rviz/gazebo_sim.rviz'
     model_path = os.path.join(urdf_tutorial_path, 'models')
     plugin_path = os.path.join(urdf_tutorial_path, '../..', 'lib', 'four_wheeled_vehicle')

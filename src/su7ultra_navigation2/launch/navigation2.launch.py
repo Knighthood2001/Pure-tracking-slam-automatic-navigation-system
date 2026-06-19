@@ -8,7 +8,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 def generate_launch_description():
     # 获取与拼接默认路径
     fishbot_navigation2_dir = get_package_share_directory(
-        'fishbot_navigation2')
+        'su7ultra_navigation2')
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
     rviz_config_dir = os.path.join(
         nav2_bringup_dir, 'rviz', 'nav2_default_view.rviz')

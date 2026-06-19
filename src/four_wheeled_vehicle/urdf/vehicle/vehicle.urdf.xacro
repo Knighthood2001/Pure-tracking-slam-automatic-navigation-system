@@ -22,6 +22,6 @@
     <xacro:gps_xacro parent_link="base_link" xyz="-0.50 0 0.95" />
     <xacro:imu_xacro parent_link="base_link" xyz="0 0 0.30" />
     <xacro:camera_xacro parent_link="base_link" xyz="2.20 0 0.60" />
-    <xacro:laser_xacro parent_link="base_link" xyz="1.30 0 0.5" />
+    <xacro:laser_xacro parent_link="base_link" xyz="1.30 0 0.3" />
     <xacro:gazebo_control_plugin />
 </robot>
