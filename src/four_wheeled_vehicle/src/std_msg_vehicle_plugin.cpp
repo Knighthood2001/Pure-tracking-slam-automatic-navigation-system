@@ -84,6 +84,7 @@ void StdMsgVehiclePlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
     wheel_radius_ = _sdf->Get<double>("wheel_radius", 0.3).first; 
     max_linear_x_ = _sdf->Get<double>("max_linear_x", 20.0).first; 
     max_angular_z_ = _sdf->Get<double>("max_angular_z", 1.0).first;
+    max_steering_angle_ = _sdf->Get<double>("max_steering_angle", 0.6).first;
 
     if (!fl_steer_joint_ || !fr_steer_joint_ || !rl_wheel_joint_ || !rr_wheel_joint_) {
         RCLCPP_FATAL(ros_node_->get_logger(), "未找到车辆关节，请检查SDF关节名");
@@ -109,7 +110,15 @@ void StdMsgVehiclePlugin::CmdVelCallback(const geometry_msgs::msg::Twist::Shared
     target_linear_x_ = std::clamp(msg->linear.x, -max_linear_x_, max_linear_x_);
     target_angular_z_ = std::clamp(msg->angular.z, -max_angular_z_, max_angular_z_);
 
-    target_steering_angle_ = target_angular_z_;
+    // 阿克曼转向：将角速度转换为前轮转向角
+    // 公式: wz = vx * tan(steer) / wheelbase  =>  steer = atan(wz * wheelbase / vx)
+    if (std::abs(target_linear_x_) > 0.01) {
+        target_steering_angle_ = std::atan(target_angular_z_ * wheelbase_ / target_linear_x_);
+        target_steering_angle_ = std::clamp(target_steering_angle_, -max_steering_angle_, max_steering_angle_);
+    } else {
+        // 线速度接近0时，阿克曼车辆无法转向
+        target_steering_angle_ = 0.0;
+    }
 }
 
 

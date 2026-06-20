@@ -91,6 +91,7 @@ private:
     double wheel_radius_;      // 车轮半径（m）
     double max_linear_x_;      // 最大线速度（m/s）
     double max_angular_z_;     // 最大角速度（rad/s）
+    double max_steering_angle_; // 最大转向角（rad）
 };
 
 }  // namespace gazebo

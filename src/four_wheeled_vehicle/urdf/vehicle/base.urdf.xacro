@@ -10,7 +10,7 @@
             <collision name="base_link_collision">
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <box size="5.24 1.5 0.47"/>
+                    <box size="5.07 1.97 0.47"/>
                 </geometry>
             </collision>
 
