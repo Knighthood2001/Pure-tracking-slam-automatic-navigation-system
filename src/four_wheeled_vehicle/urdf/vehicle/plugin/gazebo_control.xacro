@@ -7,11 +7,11 @@
                     <namespace>/vehicle</namespace>
                     <command_topic>vehicle_cmd</command_topic>
                     <status_topic>vehicle_status</status_topic>
-                    <wheelbase>3.0</wheelbase>
+                    <wheelbase>2.99</wheelbase>
                     <track_width>1.666</track_width>
                     <wheel_radius>0.3</wheel_radius>
                     <max_speed>20.0</max_speed>
-                    <max_steering_angle>0.6</max_steering_angle>
+                    <max_steering_angle>0.699</max_steering_angle>
                 </ros>
             </plugin>
         </gazebo>
