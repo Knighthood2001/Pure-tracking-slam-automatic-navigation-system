@@ -7,7 +7,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 def generate_launch_description():
     robot_name_in_model = "su7ultra"
     urdf_tutorial_path = get_package_share_directory('su7ultra_description')
-    default_model_path = urdf_tutorial_path + '/urdf/vehicle/vehicle.urdf.xacro'
+    default_model_path = urdf_tutorial_path + '/urdf/vehicle.urdf.xacro'
     default_world_path = urdf_tutorial_path + '/worlds/ackermann_test.world'
     default_rviz_config_path = urdf_tutorial_path + '/rviz/gazebo_sim.rviz'
     model_path = os.path.join(urdf_tutorial_path, 'models')

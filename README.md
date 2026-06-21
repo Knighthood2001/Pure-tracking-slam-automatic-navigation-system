@@ -53,9 +53,6 @@ sudo apt install ros-$ROS_DISTRO-gazebo-ros-pkgs \
 # Nav2 导航栈（su7ultra_navigation2 需要）
 sudo apt install ros-$ROS_DISTRO-navigation2 \
                  ros-$ROS_DISTRO-nav2-bringup
-
-# Python 依赖（nav_slam 需要）
-pip3 install numpy scipy tf-transformations
 ```
 
 ---

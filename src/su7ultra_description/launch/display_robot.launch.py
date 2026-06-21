@@ -6,7 +6,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     # 获取默认路径
     urdf_tutorial_path = get_package_share_directory('su7ultra_description')
-    default_model_path = urdf_tutorial_path + '/urdf/vehicle/vehicle.urdf.xacro'
+    default_model_path = urdf_tutorial_path + '/urdf/vehicle.urdf.xacro'
     default_rviz_config_path = urdf_tutorial_path + '/rviz/display_model.rviz'
     # 为 Launch 声明参数
     action_declare_arg_mode_path = launch.actions.DeclareLaunchArgument(
