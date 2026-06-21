@@ -14,15 +14,24 @@ def generate_launch_description():
 
     os.environ['GAZEBO_MODEL_PATH'] = f"{os.environ.get('GAZEBO_MODEL_PATH', '')}:{model_path}"
 
+    # ── Launch 参数 ──
     action_declare_arg_mode_path = launch.actions.DeclareLaunchArgument(
         name='model', default_value=str(default_model_path),
-        description='URDF 的绝对路径')
+        description='URDF/xacro 文件路径')
 
+    action_declare_drive_plugin = launch.actions.DeclareLaunchArgument(
+        name='drive_plugin', default_value='ackermann_drive',
+        description='驱动插件: ackermann_drive(官方) | explicit_ackermann(自研)',
+        choices=['ackermann_drive', 'explicit_ackermann'])
+
+    # ── 将 drive_plugin 参数传递给 xacro ──
     robot_description = launch_ros.parameter_descriptions.ParameterValue(
-        launch.substitutions.Command(
-            ['xacro ', launch.substitutions.LaunchConfiguration('model')]),
+        launch.substitutions.Command([
+            'xacro ', launch.substitutions.LaunchConfiguration('model'),
+            ' drive_plugin:=', launch.substitutions.LaunchConfiguration('drive_plugin'),
+        ]),
         value_type=str)
-	
+
     robot_state_publisher_node = launch_ros.actions.Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -40,10 +49,10 @@ def generate_launch_description():
         executable='spawn_entity.py',
         arguments=['-topic', '/robot_description',
                    '-entity', robot_name_in_model, '-x', '0', '-y', '0', '-z', '0.325'])  # 0.324+0.001，虽然写0.5也是一样的，gazebo初始化的时候，物体会下沉到地面上。
-    
 
     return launch.LaunchDescription([
         action_declare_arg_mode_path,
+        action_declare_drive_plugin,
         robot_state_publisher_node,
         launch_gazebo,
         spawn_entity_node,
