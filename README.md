@@ -1,4 +1,4 @@
-# Pure-tracking-slam-automatic-navigation-system
+# su7ultra_simulation
 
 基于 **ROS 2 + Gazebo Classic** 的 **小米 SU7 Ultra** 阿克曼转向车辆自主导航系统。
 
