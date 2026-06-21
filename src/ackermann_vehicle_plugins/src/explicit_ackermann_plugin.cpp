@@ -17,10 +17,10 @@ namespace ackermann_vehicle_plugins {
 
 ExplicitAckermannPlugin::ExplicitAckermannPlugin()
     : kinematics_(AckermannParams{}),
+      pid_output_limit_(5000.0),
       target_linear_x_(0.0),
       target_angular_z_(0.0),
       target_steer_angle_(0.0),
-      pid_output_limit_(5000.0),
       odom_frame_("odom"),
       base_frame_("base_footprint"),
       odom_pub_interval_(0.1) {}
@@ -50,13 +50,13 @@ void ExplicitAckermannPlugin::Load(gazebo::physics::ModelPtr model, sdf::Element
 
     // ── 从 SDF 读取运动学参数 ──
     AckermannParams kp;
-    kp.wheelbase           = sdf->Get<double>("wheelbase", 3.0);
-    kp.track_width         = sdf->Get<double>("track_width", 1.666);
-    kp.wheel_radius        = sdf->Get<double>("wheel_radius", 0.3);
-    kp.max_steer_angle     = sdf->Get<double>("max_steer", 0.699);
-    kp.max_speed           = sdf->Get<double>("max_speed", 20.0);
-    kp.max_angular_vel     = sdf->Get<double>("max_angular_vel", 1.0);
-    kp.low_speed_threshold = sdf->Get<double>("low_speed_threshold", 0.01);
+    kp.wheelbase           = sdf->Get<double>("wheelbase", 3.0).first;
+    kp.track_width         = sdf->Get<double>("track_width", 1.666).first;
+    kp.wheel_radius        = sdf->Get<double>("wheel_radius", 0.3).first;
+    kp.max_steer_angle     = sdf->Get<double>("max_steer", 0.699).first;
+    kp.max_speed           = sdf->Get<double>("max_speed", 20.0).first;
+    kp.max_angular_vel     = sdf->Get<double>("max_angular_vel", 1.0).first;
+    kp.low_speed_threshold = sdf->Get<double>("low_speed_threshold", 0.01).first;
     kinematics_.setParams(kp);
 
     RCLCPP_INFO(ros_node_->get_logger(),
@@ -81,7 +81,7 @@ void ExplicitAckermannPlugin::Load(gazebo::physics::ModelPtr model, sdf::Element
     rear_left_pid_      = readPID("speed_pid", 1000.0, 0.0, 1.0);
     rear_right_pid_     = readPID("speed_pid", 1000.0, 0.0, 1.0);
 
-    pid_output_limit_ = sdf->Get<double>("pid_output_limit", 5000.0);
+    pid_output_limit_ = sdf->Get<double>("pid_output_limit", 5000.0).first;
 
     left_steering_pid_.SetCmdMin(-pid_output_limit_);
     left_steering_pid_.SetCmdMax(pid_output_limit_);
@@ -93,11 +93,11 @@ void ExplicitAckermannPlugin::Load(gazebo::physics::ModelPtr model, sdf::Element
     rear_right_pid_.SetCmdMax(pid_output_limit_);
 
     // ── 从 SDF 读取坐标系名 ──
-    odom_frame_ = sdf->Get<std::string>("odom_frame", "odom");
-    base_frame_ = sdf->Get<std::string>("base_frame", "base_footprint");
+    odom_frame_ = sdf->Get<std::string>("odom_frame", "odom").first;
+    base_frame_ = sdf->Get<std::string>("base_frame", "base_footprint").first;
 
     // ── 里程计发布频率 ──
-    double odom_pub_rate = sdf->Get<double>("odom_pub_rate", 10.0);
+    double odom_pub_rate = sdf->Get<double>("odom_pub_rate", 10.0).first;
     odom_pub_interval_ = (odom_pub_rate > 0.0) ? (1.0 / odom_pub_rate) : 0.1;
 
     // ── 获取关节 ──
@@ -115,8 +115,8 @@ void ExplicitAckermannPlugin::Load(gazebo::physics::ModelPtr model, sdf::Element
     }
 
     // ── 话题 ──
-    std::string cmd_vel_topic = sdf->Get<std::string>("cmd_vel_topic", "cmd_vel");
-    std::string odom_topic    = sdf->Get<std::string>("odom_topic", "odom");
+    std::string cmd_vel_topic = sdf->Get<std::string>("cmd_vel_topic", "cmd_vel").first;
+    std::string odom_topic    = sdf->Get<std::string>("odom_topic", "odom").first;
 
     cmd_vel_sub_ = ros_node_->create_subscription<geometry_msgs::msg::Twist>(
         cmd_vel_topic, 10,
