@@ -3,6 +3,7 @@
 
 #include "explicit_ackermann_plugin.h"
 
+#include <cstdio>
 #include <gazebo/physics/Joint.hh>
 #include <rclcpp/logging.hpp>
 #include <tf2/LinearMath/Matrix3x3.h>
@@ -212,6 +213,8 @@ void ExplicitAckermannPlugin::updateSpeed(double dt) {
 // ═══════════════════════════════════════════════════════════
 
 void ExplicitAckermannPlugin::publishOdom(const gazebo::common::Time& sim_time) {
+    (void)sim_time;  // 使用 ros_node_->get_clock()->now() 获取仿真时间戳
+
     auto msg = nav_msgs::msg::Odometry();
     msg.header.stamp = ros_node_->get_clock()->now();
     msg.header.frame_id = odom_frame_;

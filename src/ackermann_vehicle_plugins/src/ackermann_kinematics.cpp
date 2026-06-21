@@ -6,6 +6,9 @@
 
 namespace ackermann_vehicle_plugins {
 
+// 可移植 PI 常量（不依赖 M_PI 宏）
+static constexpr double PI = 3.14159265358979323846;
+
 AckermannKinematics::AckermannKinematics(const AckermannParams& params)
     : params_(params) {}
 
@@ -67,11 +70,11 @@ double AckermannKinematics::clamp(double val, double lo, double hi) {
 }
 
 double AckermannKinematics::radToDeg(double rad) {
-    return rad * 180.0 / M_PI;
+    return rad * 180.0 / PI;
 }
 
 double AckermannKinematics::degToRad(double deg) {
-    return deg * M_PI / 180.0;
+    return deg * PI / 180.0;
 }
 
 }  // namespace ackermann_vehicle_plugins

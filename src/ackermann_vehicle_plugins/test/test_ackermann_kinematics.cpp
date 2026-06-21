@@ -2,9 +2,14 @@
 // Licensed under the Apache License, Version 2.0
 
 #include <gtest/gtest.h>
+#include <memory>
+#include <cmath>
 #include "ackermann_kinematics.h"
 
 using namespace ackermann_vehicle_plugins;
+
+// 可移植 PI 常量
+static constexpr double PI = 3.14159265358979323846;
 
 // ─── 测试夹具 ───
 class AckermannKinematicsTest : public ::testing::Test {
@@ -139,8 +144,8 @@ TEST_F(AckermannKinematicsTest, Clamp) {
 }
 
 TEST_F(AckermannKinematicsTest, RadDegConversion) {
-    EXPECT_NEAR(AckermannKinematics::radToDeg(M_PI), 180.0, 1e-9);
-    EXPECT_NEAR(AckermannKinematics::degToRad(180.0), M_PI, 1e-9);
+    EXPECT_NEAR(AckermannKinematics::radToDeg(PI), 180.0, 1e-9);
+    EXPECT_NEAR(AckermannKinematics::degToRad(180.0), PI, 1e-9);
     EXPECT_NEAR(AckermannKinematics::radToDeg(
         AckermannKinematics::degToRad(45.0)), 45.0, 1e-9);
 }
