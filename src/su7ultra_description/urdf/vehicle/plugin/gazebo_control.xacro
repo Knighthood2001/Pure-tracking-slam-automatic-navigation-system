@@ -13,24 +13,16 @@
     -->
 
     <!-- ── 可配置参数 ── -->
-    <xacro:arg name="drive_plugin" default="ackermann_drive"
-               doc="驱动插件: ackermann_drive(官方) | explicit_ackermann(自研)" />
-    <xacro:arg name="wheelbase" default="2.990"
-               doc="前后轴距 L (m)" />
-    <xacro:arg name="track_width" default="1.666"
-               doc="左右轮距 W (m)" />
-    <xacro:arg name="wheel_radius" default="0.3"
-               doc="车轮半径 r (m)" />
-    <xacro:arg name="max_steer" default="0.699"
-               doc="最大转向角 (rad)" />
-    <xacro:arg name="max_speed" default="5.0"
-               doc="最大线速度 (m/s)" />
-    <xacro:arg name="max_angular_vel" default="1.0"
-               doc="最大角速度 (rad/s)" />
-    <xacro:arg name="odom_frame" default="odom"
-               doc="里程计坐标系名" />
-    <xacro:arg name="base_frame" default="base_footprint"
-               doc="车体坐标系名" />
+    <!-- drive_plugin: ackermann_drive(官方) | explicit_ackermann(自研) -->
+    <xacro:arg name="drive_plugin" default="ackermann_drive" />
+    <xacro:arg name="wheelbase" default="2.990" />       <!-- 前后轴距 L (m) -->
+    <xacro:arg name="track_width" default="1.666" />     <!-- 左右轮距 W (m) -->
+    <xacro:arg name="wheel_radius" default="0.3" />      <!-- 车轮半径 r (m) -->
+    <xacro:arg name="max_steer" default="0.699" />       <!-- 最大转向角 (rad) -->
+    <xacro:arg name="max_speed" default="5.0" />         <!-- 最大线速度 (m/s) -->
+    <xacro:arg name="max_angular_vel" default="1.0" />   <!-- 最大角速度 (rad/s) -->
+    <xacro:arg name="odom_frame" default="odom" />       <!-- 里程计坐标系名 -->
+    <xacro:arg name="base_frame" default="base_footprint" /> <!-- 车体坐标系名 -->
 
     <xacro:macro name="gazebo_control_plugin">
 
