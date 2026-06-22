@@ -24,14 +24,6 @@ def generate_launch_description():
         description='驱动插件: ackermann_drive(官方) | explicit_ackermann(自研)',
         choices=['ackermann_drive', 'explicit_ackermann'])
 
-    # ========== 新增gui_required参数声明 ==========
-    declare_gui_arg = launch.actions.DeclareLaunchArgument(
-        name='gui_required',
-        default_value='true',
-        description='是否启动Gazebo可视化GUI界面，true显示窗口，false无头模式运行'
-    )
-    gui_config = launch.substitutions.LaunchConfiguration('gui_required')
-
     # ── 将 drive_plugin 参数传递给 xacro ──
     robot_description = launch_ros.parameter_descriptions.ParameterValue(
         launch.substitutions.Command([
@@ -49,11 +41,10 @@ def generate_launch_description():
     launch_gazebo = launch.actions.IncludeLaunchDescription(
         PythonLaunchDescriptionSource([get_package_share_directory(
             'gazebo_ros'), '/launch', '/gazebo.launch.py']),
-        # 把gui参数传入gazebo官方launch，官方参数名是gui
         launch_arguments=[
             ('world', default_world_path),
             ('verbose', 'true'),
-            ('gui', gui_config)  # 将我们自定义的gui_required传给gazebo原生gui参数
+            ('gui_required', 'true')  # 添加这个实现关闭gazebo客户端同时自动关闭服务端
         ]
     )
 
@@ -66,7 +57,6 @@ def generate_launch_description():
     return launch.LaunchDescription([
         action_declare_arg_mode_path,
         action_declare_drive_plugin,
-        declare_gui_arg,  # 一定要加到启动参数列表里
         robot_state_publisher_node,
         launch_gazebo,
         spawn_entity_node,
