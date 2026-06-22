@@ -62,6 +62,7 @@ source install/setup.bash
 ```bash
 cp -r src/su7ultra_description/models/* ~/.gazebo/models
 ```
+如果没有`～/.gazebo`目录，请自行`mkdir`创建。
 
 ### 3. 启动 Gazebo 仿真
 
@@ -103,7 +104,7 @@ SU7 Ultra 阿克曼转向车辆的完整 URDF 模型定义，包含底盘、执�
 ```
 su7ultra_description/
 ├── urdf/vehicle/
-│   ├── base.urdf.xacro              # 底盘（2000kg, 5.07×1.97×0.47m）
+│   ├── base.urdf.xacro              # 底盘（2000kg, 5.07×1.97×1.47m）
 │   ├── vehicle.urdf.xacro           # 主入口，组装所有组件
 │   ├── vehicle_simple.urdf.xacro    # 简化版（无传感器）
 │   ├── actuator/
@@ -194,6 +195,8 @@ su7ultra_navigation2/
 ```
 
 **Nav2 核心模块配置：**
+
+目前参数这块，配置的并没有很好，欢迎大家进行尝试。
 
 | 模块 | 插件 | 关键参数 |
 |------|------|----------|
@@ -403,6 +406,25 @@ map                              (Nav2: AMCL / 外部节点发布)
 | xacro 启动失败 | `unknown attribute(s): doc` | xacro 低版本不支持 `doc` 属性，已移除 |
 
 ---
+
+## 完整建图工作流程
+
+```bash
+# 终端 1: Gazebo 仿真
+ros2 launch su7ultra_description gazebo_sim.launch.py
+
+# 终端 2: slam_toolbox
+ros2 launch slam_toolbox online_async_launch.py use_sim_time:=True
+
+# 终端 3: 控制小车移动
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+
+# 终端 4: rviz查看
+ros2 launch four_wheeled_vehicle rviz.launch.py
+
+# 终端 5: 保存地图文件为xxx
+ros2 run nav2_map_server map_saver_cli -f xxx
+```
 
 ## 完整导航工作流程
 
