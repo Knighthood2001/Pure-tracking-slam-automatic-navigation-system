@@ -13,6 +13,8 @@ find_package(gazebo_dev REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(tf2 REQUIRED)
+# 新增：ignition math 依赖
+find_package(ignition-math6 REQUIRED)
 
 # ── 运动学纯计算库（不依赖 ROS/Gazebo，可独立编译） ──
 add_library(ackermann_kinematics SHARED
@@ -33,10 +35,12 @@ target_include_directories(explicit_ackermann_plugin PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${GAZEBO_INCLUDE_DIRS}
+  ${IGNITION_MATH6_INCLUDE_DIRS}
 )
 target_link_libraries(explicit_ackermann_plugin
   ackermann_kinematics
   ${GAZEBO_LIBRARIES}
+  ${IGNITION_MATH6_LIBRARIES}
 )
 ament_target_dependencies(explicit_ackermann_plugin
   gazebo_ros
@@ -67,6 +71,7 @@ install(DIRECTORY include/
 # 导出头文件路径（供其他包 find_package 使用）
 ament_export_include_directories(include)
 ament_export_libraries(ackermann_kinematics explicit_ackermann_plugin)
-ament_export_dependencies(gazebo_ros rclcpp geometry_msgs nav_msgs tf2)
+# 新增导出 ignition-math6
+ament_export_dependencies(gazebo_ros rclcpp geometry_msgs nav_msgs tf2 ignition-math6)
 
 ament_package()

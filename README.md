@@ -59,6 +59,9 @@ source install/setup.bash
 
 ### 2. 安装 Gazebo 模型
 
+首先把`src/su7ultra_description/models/su7ultra/meshes/car.zip`进行解压。
+
+
 ```bash
 cp -r src/su7ultra_description/models/* ~/.gazebo/models
 ```
@@ -73,6 +76,7 @@ ros2 launch su7ultra_description gazebo_sim.launch.py
 # 或切换为自研显式阿克曼插件
 ros2 launch su7ultra_description gazebo_sim.launch.py drive_plugin:=explicit_ackermann
 ```
+
 
 ### 4. 启动 Nav2 导航
 

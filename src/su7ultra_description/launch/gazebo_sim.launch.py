@@ -20,7 +20,7 @@ def generate_launch_description():
         description='URDF/xacro 文件路径')
 
     action_declare_drive_plugin = launch.actions.DeclareLaunchArgument(
-        name='drive_plugin', default_value='ackermann_drive',
+        name='drive_plugin', default_value='explicit_ackermann',
         description='驱动插件: ackermann_drive(官方) | explicit_ackermann(自研)',
         choices=['ackermann_drive', 'explicit_ackermann'])
 
