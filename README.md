@@ -28,7 +28,7 @@
 | 项目 | 版本 / 说明 |
 |------|-------------|
 | 操作系统 | Ubuntu 22.04 LTS |
-| ROS 2 | Humble / Iron / Jazzy |
+| ROS 2 | Humble(只在这里进行了测试) |
 | Gazebo | Classic 11.x（非 Ignition） |
 
 **系统依赖安装：**
@@ -40,10 +40,8 @@ sudo apt install ros-$ROS_DISTRO-gazebo-ros-pkgs \
                  ros-$ROS_DISTRO-robot-state-publisher \
                  ros-$ROS_DISTRO-navigation2 \
                  ros-$ROS_DISTRO-nav2-bringup
-
-# Gazebo 开发库（编译插件包需要）
-sudo apt install libgazebo-dev
 ```
+应该还有很多包是漏掉的，大家自行安装。
 
 ---
 
@@ -52,7 +50,7 @@ sudo apt install libgazebo-dev
 ### 1. 编译
 
 ```bash
-cd Pure-tracking-slam-automatic-navigation-system
+cd su7ultra_simulation
 colcon build
 source install/setup.bash
 ```
@@ -63,6 +61,13 @@ source install/setup.bash
 cp -r src/su7ultra_description/models/* ~/.gazebo/models
 ```
 如果没有`～/.gazebo`目录，请自行`mkdir`创建。
+
+### 说明
+1. 这个项目最初看上了su7ultra这个车的模型，然后自己也学习了鱼香ROS的ROS2教程，想着能不能以这个为基础，搭建基于阿克曼转向模型的仿真。
+2. 感谢Ming2zun作者所作的工作，在此基础上，我将su7ultra车模由SDF按照鱼香ROS视频教程，把他分模块的写成urdf。
+3. 在以上完成后，就能开始slam和导航了，然后解决了里面cpp代码存在的调用时间导致的tf时间问题，以适配鱼香ROS的slam_toolbox教程。
+4. 完成SLAM后，在nav2部分，由于鱼香ROS的教程不是基于阿克曼转向模型的，并且由于nav2的参数量过大，且我在这方面并不熟悉，因此参数这边，还需要后续有人完善（我不清楚我能否调出来）。
+5. 关于项目功能包，`four_wheeled_vehicle`包是最开始搭建的，里面存在的是非官方的阿克曼转向模型的代码，由于我想要阿克曼转向模型的代码不要写死在一个功能包中，因此把他抽出到`ackermann_vehicle_plugins`功能包中，然后`su7ultra_description`功能包里面，就在`gazebo_sim.launch.py`中添加了官方/非官方这两种方式的阿克曼转向模型的调用。然后由于我想要知阿克曼转向模型中，前轮的转向角度，故写了`ackermann_steering_angle`功能包。`nav_slam`这里我没有用到。
 
 ### 3. 启动 Gazebo 仿真
 
@@ -183,8 +188,7 @@ su7ultra_navigation2/
 │   └── test_nav2_params.yaml        # 测试用参数
 ├── maps/
 │   ├── test.yaml / test.pgm         # 测试地图（60×40m）
-│   ├── room.yaml / room.pgm         # 房间地图（36×34m）
-│   └── world.yaml / world.pgm       # 世界地图（71×22m）
+│   └── room.yaml / room.pgm         # 房间地图（36×34m）
 ├── behavior_trees/
 │   ├── navigate_to_pose_w_replanning_and_recovery.xml
 │   └── navigate_through_poses_w_replanning_and_recovery.xml
@@ -193,6 +197,7 @@ su7ultra_navigation2/
 ├── CMakeLists.txt
 └── package.xml
 ```
+这里，nav2_params.yaml中，需要你把behavior_trees中的两个文件路径进行修改为你自己电脑上的路径。
 
 **Nav2 核心模块配置：**
 
