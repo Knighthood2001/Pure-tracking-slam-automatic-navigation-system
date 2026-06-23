@@ -31,7 +31,7 @@
             <visual name="${wheel_name}_wheel_link_visual">
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file:///home/wu/.gazebo/models/su7ultra/meshes/wheel_l.dae"/>
+                    <mesh filename="file://$(env HOME)/.gazebo/models/su7ultra/meshes/wheel_l.dae"/>
                 </geometry>
             </visual>
         </link>
@@ -69,7 +69,7 @@
             <visual name="${wheel_name}_wheel_link_visual">
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file:///home/wu/.gazebo/models/su7ultra/meshes/wheel_r.dae"/>
+                    <mesh filename="file://$(env HOME)/.gazebo/models/su7ultra/meshes/wheel_r.dae"/>
                 </geometry>
             </visual>
         </link>
