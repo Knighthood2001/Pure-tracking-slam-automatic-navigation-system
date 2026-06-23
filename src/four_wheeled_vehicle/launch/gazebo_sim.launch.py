@@ -34,8 +34,9 @@ def generate_launch_description():
     launch_gazebo = launch.actions.IncludeLaunchDescription(
         PythonLaunchDescriptionSource([get_package_share_directory(
             'gazebo_ros'), '/launch', '/gazebo.launch.py']),
-      	launch_arguments=[('world', default_world_path), ('verbose', 'true')]
-    )
+      	launch_arguments=[('world', default_world_path), ('verbose', 'true'),
+            ('gui_required', 'true')  # 添加这个实现关闭gazebo客户端同时自动关闭服务端
+        ])
 
     spawn_entity_node = launch_ros.actions.Node(
         package='gazebo_ros',

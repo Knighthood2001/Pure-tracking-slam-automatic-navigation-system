@@ -17,7 +17,7 @@
             <visual name="base_link_visual">
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="file:///home/wu/code/ros2/Pure-tracking-slam-automatic-navigation-system/src/four_wheeled_vehicle/models/four_wheeled_vehicle/meshes/car.dae" scale="1 1 1"/>
+                    <mesh filename="file://$(env HOME)/.gazebo/models/su7ultra/meshes/car.dae" scale="1 1 1"/>
                 </geometry>
             </visual>
         </link>
