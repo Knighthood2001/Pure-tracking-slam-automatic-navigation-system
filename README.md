@@ -27,10 +27,9 @@
 
 | 项目 | 版本 / 说明 |
 |------|-------------|
-| 操作系统 | Ubuntu 22.04 LTS（推荐） |
-| ROS 2 | Humble / Iron / Jazzy |
-| Gazebo | Classic 11.x（非 Ignition/Garden） |
-| Python | 3.10+（需 `numpy`, `scipy`, `tf-transformations`） |
+| 操作系统 | Ubuntu 22.04 LTS |
+| ROS 2 | Humble(只在这里进行了测试) |
+| Gazebo | Classic 11.x（非 Ignition） |
 
 **系统依赖安装：**
 
@@ -42,23 +41,7 @@ sudo apt install ros-$ROS_DISTRO-gazebo-ros-pkgs \
                  ros-$ROS_DISTRO-navigation2 \
                  ros-$ROS_DISTRO-nav2-bringup
 ```
-
----
-
-## 导航方案对比
-
-本系统提供两套互补的导航方案，可根据场景需求选择：
-
-| 对比维度 | 方案一：Nav2 全栈导航 | 方案二：自研 SLAM + 纯追踪 |
-|----------|----------------------|--------------------------|
-| **功能包** | `su7ultra_navigation2` | `nav_slam` |
-| **定位** | AMCL 粒子滤波 | 里程计 + odom→map TF |
-| **路径规划** | SmacPlanner Hybrid-A*（Reeds-Shepp） | A* + B 样条平滑 |
-| **路径跟踪** | MPPI 控制器（Ackermann 约束） | Pure Pursuit 纯追踪 |
-| **避障** | 全局 + 局部代价地图，动态避障 | 栅格地图膨胀，静态避障 |
-| **行为恢复** | 清除地图 / 前进 / 等待 / 后退 | 无（到达阈值 0.2m 停止） |
-| **适用场景** | 复杂环境，动态障碍物，长距离 | 已知环境，短距离，教学演示 |
-| **依赖** | Nav2 全家桶 | numpy + scipy |
+应该还有很多包是漏掉的，大家自行安装。
 
 ---
 
@@ -77,10 +60,14 @@ source install/setup.bash
 ```bash
 cp -r src/su7ultra_description/models/* ~/.gazebo/models
 ```
+如果没有`～/.gazebo`目录，请自行`mkdir`创建。
 
-> **注意：** 复制后需检查以下文件中 mesh 的 `filename` 路径是否指向 `~/.gazebo/models/su7ultra/meshes/`：
-> - `src/su7ultra_description/urdf/vehicle/base.urdf.xacro` → `car.dae`
-> - `src/su7ultra_description/urdf/vehicle/actuator/wheel.urdf.xacro` → `wheel_l.dae` / `wheel_r.dae`
+### 说明
+1. 这个项目最初看上了su7ultra这个车的模型，然后自己也学习了鱼香ROS的ROS2教程，想着能不能以这个为基础，搭建基于阿克曼转向模型的仿真。
+2. 感谢Ming2zun作者所作的工作，在此基础上，我将su7ultra车模由SDF按照鱼香ROS视频教程，把他分模块的写成urdf。
+3. 在以上完成后，就能开始slam和导航了，然后解决了里面cpp代码存在的调用时间导致的tf时间问题，以适配鱼香ROS的slam_toolbox教程。
+4. 完成SLAM后，在nav2部分，由于鱼香ROS的教程不是基于阿克曼转向模型的，并且由于nav2的参数量过大，且我在这方面并不熟悉，因此参数这边，还需要后续有人完善（我不清楚我能否调出来）。
+5. 关于项目功能包，`four_wheeled_vehicle`包是最开始搭建的，里面存在的是非官方的阿克曼转向模型的代码，由于我想要阿克曼转向模型的代码不要写死在一个功能包中，因此把他抽出到`ackermann_vehicle_plugins`功能包中，然后`su7ultra_description`功能包里面，就在`gazebo_sim.launch.py`中添加了官方/非官方这两种方式的阿克曼转向模型的调用。然后由于我想要知阿克曼转向模型中，前轮的转向角度，故写了`ackermann_steering_angle`功能包。`nav_slam`这里我没有用到。
 
 ### 3. 启动 Gazebo 仿真
 
@@ -200,9 +187,8 @@ su7ultra_navigation2/
 │   ├── nav2_params.yaml             # Nav2 全栈参数
 │   └── test_nav2_params.yaml        # 测试用参数
 ├── maps/
-│   ├── test.yaml / test.pgm         # 测试地图（60×40m，分辨率 0.05m/px）
-│   ├── room.yaml / room.pgm         # 房间地图（36×34m）
-│   └── world.yaml / world.pgm       # 世界地图（71×22m）
+│   ├── test.yaml / test.pgm         # 测试地图（60×40m）
+│   └── room.yaml / room.pgm         # 房间地图（36×34m）
 ├── behavior_trees/
 │   ├── navigate_to_pose_w_replanning_and_recovery.xml
 │   └── navigate_through_poses_w_replanning_and_recovery.xml
@@ -467,5 +453,5 @@ ros2 launch ackermann_steering_angle steering_angle.launch.py
 [Apache License 2.0](LICENSE)
 
 **贡献者：**
-- [Ming2zun](https://github.com/Ming2zun) — 核心开发与导航算法
-- [喵了个水蓝蓝](https://www.bilibili.com/video/BV1kzEwzuEFw) — 教程与技术支持
+- [Ming2zun](https://github.com/Ming2zun)
+- [喵了个水蓝蓝](https://www.bilibili.com/video/BV1kzEwzuEFw)
