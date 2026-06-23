@@ -3,7 +3,6 @@ install
 log
 .vscode
 src/nav_slam
-src/four_wheeled_vehicle
 ackermann_vehicle
 说明.md
 car.dae

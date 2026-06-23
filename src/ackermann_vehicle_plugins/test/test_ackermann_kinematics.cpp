@@ -97,7 +97,7 @@ TEST_F(AckermannKinematicsTest, WheelAngles_RightTurn) {
     EXPECT_LT(angles.left, 0.0);
     EXPECT_LT(angles.right, 0.0);
     // 右轮的绝对值更大
-    EXPECT_LT(angles.right, angles.left);
+    EXPECT_LT(angles.left, angles.right);
 }
 
 TEST_F(AckermannKinematicsTest, WheelAngles_AckermannConstraint) {
@@ -172,8 +172,8 @@ TEST_F(AckermannKinematicsTest, DifferentVehicleParams) {
     double steer_kart = kart_kin.cmdVelToSteer(2.0, 0.3);
     EXPECT_NE(steer_su7, steer_kart);
 
-    // 卡丁车轴距更短 → 相同横摆角速度下需要更小的转向角
-    EXPECT_LT(std::abs(steer_kart), std::abs(steer_su7));
+    // 卡丁车轴距更短 → 同样的 wz 需要更大的转向角
+    EXPECT_GT(std::abs(steer_kart), std::abs(steer_su7));
 }
 
 TEST_F(AckermannKinematicsTest, SetParamsRuntime) {

@@ -41,9 +41,7 @@ def generate_launch_description():
     launch_gazebo = launch.actions.IncludeLaunchDescription(
         PythonLaunchDescriptionSource([get_package_share_directory(
             'gazebo_ros'), '/launch', '/gazebo.launch.py']),
-        launch_arguments=[
-            ('world', default_world_path),
-            ('verbose', 'true'),
+      	launch_arguments=[('world', default_world_path), ('verbose', 'true'),
             ('gui_required', 'true')  # 添加这个实现关闭gazebo客户端同时自动关闭服务端
         ]
     )
@@ -52,7 +50,7 @@ def generate_launch_description():
         package='gazebo_ros',
         executable='spawn_entity.py',
         arguments=['-topic', '/robot_description',
-                   '-entity', robot_name_in_model, '-x', '0', '-y', '0', '-z', '0.325']) # 0.324+0.001，虽然写0.5也是一样的，gazebo初始化的时候，物体会下沉到地面上。
+                   '-entity', robot_name_in_model, '-x', '0', '-y', '0', '-z', '0.325'])  # 0.324+0.001，虽然写0.5也是一样的，gazebo初始化的时候，物体会下沉到地面上。
 
     return launch.LaunchDescription([
         action_declare_arg_mode_path,
