@@ -1,13 +1,13 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="su7ultra_description">
-    <xacro:include filename="$(find su7ultra_description)/urdf/vehicle/base.urdf.xacro" />
-    <xacro:include filename="$(find su7ultra_description)/urdf/vehicle/actuator/steering.urdf.xacro" />
-    <xacro:include filename="$(find su7ultra_description)/urdf/vehicle/actuator/wheel.urdf.xacro" />
-    <xacro:include filename="$(find su7ultra_description)/urdf/vehicle/sensor/lidar3d.urdf.xacro" />
-    <xacro:include filename="$(find su7ultra_description)/urdf/vehicle/sensor/gps.urdf.xacro" />
-    <xacro:include filename="$(find su7ultra_description)/urdf/vehicle/sensor/imu.urdf.xacro" />
-    <xacro:include filename="$(find su7ultra_description)/urdf/vehicle/sensor/camera.urdf.xacro" />
-    <xacro:include filename="$(find su7ultra_description)/urdf/vehicle/plugin/gazebo_control.xacro" />
-    <xacro:include filename="$(find su7ultra_description)/urdf/vehicle/sensor/laser.urdf.xacro" />
+    <xacro:include filename="$(find su7ultra_description)/urdf/base.urdf.xacro" />
+    <xacro:include filename="$(find su7ultra_description)/urdf/actuator/steering.urdf.xacro" />
+    <xacro:include filename="$(find su7ultra_description)/urdf/actuator/wheel.urdf.xacro" />
+    <xacro:include filename="$(find su7ultra_description)/urdf/sensor/lidar3d.urdf.xacro" />
+    <xacro:include filename="$(find su7ultra_description)/urdf/sensor/gps.urdf.xacro" />
+    <xacro:include filename="$(find su7ultra_description)/urdf/sensor/imu.urdf.xacro" />
+    <xacro:include filename="$(find su7ultra_description)/urdf/sensor/camera.urdf.xacro" />
+    <xacro:include filename="$(find su7ultra_description)/urdf/plugin/gazebo_control.xacro" />
+    <xacro:include filename="$(find su7ultra_description)/urdf/sensor/laser.urdf.xacro" />
     <xacro:base_xacro />
     
     <xacro:steering_xacro steering_name="front_left" parent_link="base_link" xyz="1.445 0.833 -0.024" />
