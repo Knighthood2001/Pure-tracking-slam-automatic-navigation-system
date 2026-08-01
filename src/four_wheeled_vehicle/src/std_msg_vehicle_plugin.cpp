@@ -1,23 +1,3 @@
-// # Copyright 2025 <Ming2zun:https://github.com/Ming2zun/Pure-tracking-slam-automatic-navigation-system>
-// #                <喵了个水蓝蓝:https://www.bilibili.com/video/BV1kzEwzuEFw?spm_id_from=333.788.videopod.sections&vd_source=134c12873ff478ea447a06d652426f8f>
-// #
-// # Licensed under the Apache License, Version 2.0 (the "License");
-// # you may not use this file except in compliance with the License.
-// # You may obtain a copy of the License at
-// #
-// #     http://www.apache.org/licenses/LICENSE-2.0
-// #
-// # Unless required by applicable law or agreed to in writing, software
-// # distributed under the License is distributed on an "AS IS" BASIS,
-// # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// # See the License for the specific language governing permissions and
-// # limitations under the License.
-
-
-
-
-
-
 #include "std_msg_vehicle_plugin.h"
 #include <gazebo/physics/Joint.hh>
 #include <rclcpp/logging.hpp>
@@ -84,7 +64,7 @@ void StdMsgVehiclePlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
     wheel_radius_ = _sdf->Get<double>("wheel_radius", 0.3).first; 
     max_linear_x_ = _sdf->Get<double>("max_linear_x", 20.0).first; 
     max_angular_z_ = _sdf->Get<double>("max_angular_z", 1.0).first;
-    max_steering_angle_ = _sdf->Get<double>("max_steering_angle", 0.6).first;
+    max_steering_angle_ = _sdf->Get<double>("max_steering_angle", 0.7).first;
 
     if (!fl_steer_joint_ || !fr_steer_joint_ || !rl_wheel_joint_ || !rr_wheel_joint_) {
         RCLCPP_FATAL(ros_node_->get_logger(), "未找到车辆关节，请检查SDF关节名");

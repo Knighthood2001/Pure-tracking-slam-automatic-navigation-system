@@ -132,30 +132,49 @@ controller_server:
       yaw_goal_tolerance: 0.3
       stateful: True
 
-    # ========== RPP 纯追踪核心配置（替代MPPI）==========
     FollowPath:
-      plugin: "nav2_regulated_pure_pursuit_controller::RegulatedPurePursuitController"
-      desired_linear_vel: 1.2
-      max_linear_accel: 1.5
-      max_linear_decel: 2.0
-      min_linear_vel: -0.8
-      max_angular_vel: 0.46
+      plugin: "teb_local_planner::TebLocalPlannerROS"
+      teb_autosize: True
+      dt_ref: 0.3
+      dt_hysteresis: 0.1
+      max_global_plan_lookahead_dist: 4.0
+      feasibility_check_no_poses: 2
+      global_plan_overwrite_orientation: True
+
+      cmd_angle_instead_rotvel: True
       min_turning_radius: 4.39
-      # 自适应前视距离（车速越快看越远）
-      adaptive_lookahead: true
-      lookahead_time: 2.5
-      lookahead_distance: 3.0
-      # 弯道自动减速
-      use_regulated_linear_velocity_scaling: true
-      regulated_linear_scaling_min_radius: 5.0
-      regulated_linear_scaling_min_speed: 0.4
-      # 障碍物减速检测
-      use_collision_detection: true
-      collision_check_scaling_dist: 0.3
-      # 终点朝向校准
-      use_rotate_to_heading: false
-      # 禁止原地自旋（阿克曼不支持）
-      allow_reversing: true
+      max_vel_x: 1.2
+      max_vel_x_backwards: 0.8
+      max_vel_theta: 0.46
+      acc_lim_x: 1.5
+      acc_lim_theta: 1.0
+
+      xy_goal_tolerance: 0.3
+      yaw_goal_tolerance: 0.2
+      free_goal_vel: False
+
+      min_obstacle_dist: 0.25
+      include_costmap_obstacles: True
+      costmap_obstacles_behind_robot_dist: 0.5
+      obstacle_poses_affected: 30
+
+      no_inner_iterations: 5
+      no_outer_iterations: 4
+      optimization_activate: True
+      penalty_epsilon: 0.1
+
+      weight_max_vel_x: 2.0
+      weight_max_vel_theta: 1.0
+      weight_acc_lim_x: 1.0
+      weight_acc_lim_theta: 1.0
+      weight_kinematics_nh: 1000.0
+      weight_kinematics_forward_drive: 2.0
+      weight_kinematics_turning_radius: 20.0
+      weight_optimaltime: 1.0
+      weight_obstacle: 45.0
+
+      enable_homotopy_class_planning: False
+      visualize_hc_graph: False
 
 local_costmap:
   local_costmap:
@@ -174,7 +193,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 5.0
-        inflation_radius: 1.5
+        inflation_radius: 0.7
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -234,7 +253,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 5.0
-        inflation_radius: 1.5
+        inflation_radius: 0.7
       always_send_full_costmap: True
 
 map_server:
@@ -260,10 +279,10 @@ planner_server:
       downsample_costmap: false
       downsampling_factor: 1
       tolerance: 2.0
-      allow_unknown: false
+      allow_unknown: true
       max_iterations: 1000000
       max_on_approach_iterations: 1000
-      max_planning_time: 10.0
+      max_planning_time: 15.0
       motion_model_for_search: "REEDS_SHEPP"
       angle_quantization_bins: 72
       analytic_expansion_ratio: 3.5
@@ -271,7 +290,7 @@ planner_server:
       analytic_expansion_max_cost: 200.0
       analytic_expansion_max_cost_override: false
       minimum_turning_radius: 4.39
-      reverse_penalty: 10.0
+      reverse_penalty: 4.0
       change_penalty: 0.0
       non_straight_penalty: 1.2
       cost_penalty: 5.0

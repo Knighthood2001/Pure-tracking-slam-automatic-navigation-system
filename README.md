@@ -1,6 +1,6 @@
 # su7ultra_simulation
 
-基于 **ROS 2 + Gazebo Classic** 的 **阿克曼转向车辆自主导航系统**，以小米 SU7 Ultra 为仿真平台。
+基于 **ROS 2 + Gazebo Classic** 的 **阿克曼转向车辆自主导航系统**，以小米 SU7 Ultra 为仿真物体。
 
 集成 **Nav2 全栈导航**，同时提供通用阿克曼 Gazebo 插件包，支持显式运动学计算与参数化配置，适用于任意阿克曼车辆。
 
@@ -452,6 +452,6 @@ ros2 launch ackermann_steering_angle steering_angle.launch.py
 
 [Apache License 2.0](LICENSE)
 
-**贡献者：**
+**感谢：**
 - [Ming2zun](https://github.com/Ming2zun)
 - [喵了个水蓝蓝](https://www.bilibili.com/video/BV1kzEwzuEFw)
